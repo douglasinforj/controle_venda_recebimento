@@ -24,6 +24,17 @@
                     <li class="nav-item"><a class="nav-link" href="#">Criar Venda</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Estoque</a></li>
 
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <form  action="{% url 'logout' %}" method="post" >
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link" style="border: none; background: none; padding: 0; cursor: pointer;">Logout</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+
                     {% comment %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'listar_clientes' %}">Clientes</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'listar_produtos' %}">Produtos</a></li>
