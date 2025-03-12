@@ -28,3 +28,6 @@ Este sistema permite o gerenciamento de vendas, parcelas e recebimentos de clien
 ### Tela de Home  
 ![Tela de Login](assets/images/home.png)
 
+### Tela Listar Clientes  
+![Tela de Login](assets/images/listar_clientes.png)
+
