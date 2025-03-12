@@ -23,5 +23,8 @@ Este sistema permite o gerenciamento de vendas, parcelas e recebimentos de clien
 ## 📸 Imagens do Projeto
 
 ### Tela de Login  
+![Tela de Login](assets/images/login.png)
+
+### Tela de Home  
 ![Tela de Login](assets/images/home.png)
 
