@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from datetime import date, timedelta
-from .models import Parcela
+from .models import Parcela, Cliente
+from .forms import ClienteForm
 
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
@@ -37,4 +38,27 @@ class CustomLoginView(LoginView):
 class CustomLogoutView(LogoutView):
     next_page = reverse_lazy("login")
         
+
+@login_required
+def listar_clientes(request):
+    clientes = Cliente.objects.all()
+    return render(request, "controle_vendas_app/listar_clientes.html", {"clientes": clientes})
+
+@login_required
+def cadastrar_cliente(request):
+    if request.method == "POST":
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_clientes')
+    else:
+        form = ClienteForm()
+    return render(request, "controle_vendas_app/cadastrar_cliente.html", {"form": form})
+
+
+
+
+
+
+
     
