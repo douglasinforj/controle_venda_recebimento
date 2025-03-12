@@ -9,58 +9,58 @@
 {% block content %}
 
     <!-- Boas-vindas -->
-<div class="container mt-4">
-    <h2 class="text-center">Bem-vindo ao Sistema de Controle de Vendas</h2>
-    <p class="text-center">Gerencie suas vendas, clientes e produtos de forma eficiente.</p>
+    <div class="container mt-4">
+        <h2 class="text-center">Bem-vindo ao Sistema de Controle de Vendas</h2>
+        <p class="text-center">Gerencie suas vendas, clientes e produtos de forma eficiente.</p>
 
-    <div class="row">
-        <!-- Clientes com parcelas vencidas -->
-        <div class="col-md-6">
-            <div class="card border-danger">
-                <div class="card-header bg-danger text-white">
-                    <h5>Clientes com parcelas vencidas</h5>
-                </div>
-                <div class="card-body">
-                    {% if vencidos %}
-                        {% for parcela in vencidos %}
-                            <div class="card mb-2 p-2 border-danger">
-                                <strong>Cliente:</strong> {{ parcela.venda.cliente.nome }} <br>
-                                <strong>Parcela:</strong> {{ parcela.numero }} <br>
-                                <strong>Valor:</strong> R$ {{ parcela.valor }} <br>
-                                <strong>Vencimento:</strong> <span class="text-danger">{{ parcela.data_vencimento }}</span>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <p class="text-success">Nenhum cliente com parcelas vencidas.</p>
-                    {% endif %}
+        <div class="row">
+            <!-- Clientes com parcelas vencidas -->
+            <div class="col-md-6">
+                <div class="card border-danger">
+                    <div class="card-header bg-danger text-white">
+                        <h5>Clientes com parcelas vencidas</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if vencidos %}
+                            {% for parcela in vencidos %}
+                                <div class="card mb-2 p-2 border-danger">
+                                    <strong>Cliente:</strong> {{ parcela.venda.cliente.nome }} <br>
+                                    <strong>Parcela:</strong> {{ parcela.numero }} <br>
+                                    <strong>Valor:</strong> R$ {{ parcela.valor }} <br>
+                                    <strong>Vencimento:</strong> <span class="text-danger">{{ parcela.data_vencimento }}</span>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-success">Nenhum cliente com parcelas vencidas.</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Clientes com parcelas próximas ao vencimento -->
-        <div class="col-md-6">
-            <div class="card border-warning">
-                <div class="card-header bg-warning text-dark">
-                    <h5>Clientes com parcelas próximas ao vencimento</h5>
-                </div>
-                <div class="card-body">
-                    {% if proximos_a_vencer %}
-                        {% for parcela in proximos_a_vencer %}
-                            <div class="card mb-2 p-2 border-warning">
-                                <strong>Cliente:</strong> {{ parcela.venda.cliente.nome }} <br>
-                                <strong>Parcela:</strong> {{ parcela.numero }} <br>
-                                <strong>Valor:</strong> R$ {{ parcela.valor }} <br>
-                                <strong>Vencimento:</strong> <span class="text-warning">{{ parcela.data_vencimento }}</span>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <p class="text-success">Nenhum cliente com parcelas a vencer nos próximos dias.</p>
-                    {% endif %}
+            <!-- Clientes com parcelas próximas ao vencimento -->
+            <div class="col-md-6">
+                <div class="card border-warning">
+                    <div class="card-header bg-warning text-dark">
+                        <h5>Clientes com parcelas próximas ao vencimento</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if proximos_a_vencer %}
+                            {% for parcela in proximos_a_vencer %}
+                                <div class="card mb-2 p-2 border-warning">
+                                    <strong>Cliente:</strong> {{ parcela.venda.cliente.nome }} <br>
+                                    <strong>Parcela:</strong> {{ parcela.numero }} <br>
+                                    <strong>Valor:</strong> R$ {{ parcela.valor }} <br>
+                                    <strong>Vencimento:</strong> <span class="text-warning">{{ parcela.data_vencimento }}</span>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-success">Nenhum cliente com parcelas a vencer nos próximos dias.</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
     {% endblock %}
