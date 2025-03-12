@@ -18,3 +18,10 @@ Este sistema permite o gerenciamento de vendas, parcelas e recebimentos de clien
 - **Banco de Dados**: PostgreSQL
 - **Frontend**: HTML, Bootstrap e Chart.js
 
+
+
+## 📸 Imagens do Projeto
+
+### Tela de Login  
+![Tela de Login](assets/images/home.png)
+
