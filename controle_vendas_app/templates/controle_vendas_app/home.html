@@ -1,100 +1,68 @@
+{% extends 'base.html' %} 
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle de Vendas</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">Controle de Vendas</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
 
-                    <li class="nav-item"><a class="nav-link" href="#">Clientes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Produtos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Criar Venda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Estoque</a></li>
 
-                    {% comment %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'listar_clientes' %}">Clientes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'listar_produtos' %}">Produtos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'criar_venda' %}">Criar Venda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'estoque' %}">Estoque</a></li>
-                    {% endcomment %}
-                    
-                </ul>
-            </div>
-        </div>
-    </nav>
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
 
     <!-- Boas-vindas -->
-    <div class="container mt-4">
-        <h2>Bem-vindo ao Sistema de Controle de Vendas</h2>
-        <p>Gerencie suas vendas, clientes e produtos de forma eficiente.</p>
+<div class="container mt-4">
+    <h2 class="text-center">Bem-vindo ao Sistema de Controle de Vendas</h2>
+    <p class="text-center">Gerencie suas vendas, clientes e produtos de forma eficiente.</p>
 
+    <div class="row">
         <!-- Clientes com parcelas vencidas -->
-        <h3 class="mt-4 text-danger">Clientes com parcelas vencidas</h3>
-        {% if vencidos %}
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Parcela</th>
-                        <th>Valor</th>
-                        <th>Data de Vencimento</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for parcela in vencidos %}
-                        <tr>
-                            <td>{{ parcela.venda.cliente.nome }}</td>
-                            <td>{{ parcela.numero }}</td>
-                            <td>R$ {{ parcela.valor }}</td>
-                            <td class="text-danger">{{ parcela.data_vencimento }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p class="text-success">Nenhum cliente com parcelas vencidas.</p>
-        {% endif %}
+        <div class="col-md-6">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5>Clientes com parcelas vencidas</h5>
+                </div>
+                <div class="card-body">
+                    {% if vencidos %}
+                        {% for parcela in vencidos %}
+                            <div class="card mb-2 p-2 border-danger">
+                                <strong>Cliente:</strong> {{ parcela.venda.cliente.nome }} <br>
+                                <strong>Parcela:</strong> {{ parcela.numero }} <br>
+                                <strong>Valor:</strong> R$ {{ parcela.valor }} <br>
+                                <strong>Vencimento:</strong> <span class="text-danger">{{ parcela.data_vencimento }}</span>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-success">Nenhum cliente com parcelas vencidas.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
 
         <!-- Clientes com parcelas próximas ao vencimento -->
-        <h3 class="mt-4 text-warning">Clientes com parcelas próximas ao vencimento</h3>
-        {% if proximos_a_vencer %}
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Parcela</th>
-                        <th>Valor</th>
-                        <th>Data de Vencimento</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for parcela in proximos_a_vencer %}
-                        <tr>
-                            <td>{{ parcela.venda.cliente.nome }}</td>
-                            <td>{{ parcela.numero }}</td>
-                            <td>R$ {{ parcela.valor }}</td>
-                            <td class="text-warning">{{ parcela.data_vencimento }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p class="text-success">Nenhum cliente com parcelas a vencer nos próximos dias.</p>
-        {% endif %}
+        <div class="col-md-6">
+            <div class="card border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h5>Clientes com parcelas próximas ao vencimento</h5>
+                </div>
+                <div class="card-body">
+                    {% if proximos_a_vencer %}
+                        {% for parcela in proximos_a_vencer %}
+                            <div class="card mb-2 p-2 border-warning">
+                                <strong>Cliente:</strong> {{ parcela.venda.cliente.nome }} <br>
+                                <strong>Parcela:</strong> {{ parcela.numero }} <br>
+                                <strong>Valor:</strong> R$ {{ parcela.valor }} <br>
+                                <strong>Vencimento:</strong> <span class="text-warning">{{ parcela.data_vencimento }}</span>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-success">Nenhum cliente com parcelas a vencer nos próximos dias.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+    {% endblock %}
 </body>
 </html>
