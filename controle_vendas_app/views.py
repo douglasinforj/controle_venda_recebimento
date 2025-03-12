@@ -9,6 +9,8 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+from django.db.models import Q
+
 
 @login_required
 def home(request):
@@ -39,10 +41,20 @@ class CustomLogoutView(LogoutView):
     next_page = reverse_lazy("login")
         
 
+
+#------------------------------------Clientes---------------------------------------
 @login_required
 def listar_clientes(request):
-    clientes = Cliente.objects.all()
-    return render(request, "controle_vendas_app/listar_clientes.html", {"clientes": clientes})
+
+    query = request.GET.get("q", "")
+    clientes = Cliente.objects.filter(
+        Q(nome__icontains=query) |
+        Q(email_icontains=query) |
+        Q(cpf_cnpj__icontains=query)
+
+    ) if query else Cliente.objects.all()
+
+    return render(request, "controle_vendas_app/listar_clientes.html", {"clientes": clientes, "query": query})
 
 @login_required
 def cadastrar_cliente(request):
