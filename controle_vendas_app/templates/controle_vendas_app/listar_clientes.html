@@ -1,35 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Lista de Clientes</h2>
-    <a href="{% url 'cadastrar_cliente' %}" class="btn btn-primary mb-3">+ Novo Cliente</a>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>CPF/CNPJ</th>
-                <th>Telefone</th>
-                <th>Email</th>
-                <th>Endereço</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cliente in clientes %}
-            <tr>
-                <td>{{ cliente.nome }}</td>
-                <td>{{ cliente.cpf_cnpj }}</td>
-                <td>{{ cliente.telefone }}</td>
-                <td>{{ cliente.email }}</td>
-                <td>{{ cliente.endereco }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5" class="text-center">Nenhum cliente cadastrado.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container mt-4">
+    <h2 class="mb-4">Lista de Clientes</h2>
+
+    <!--form pesquisa-->
+    <form method="GET" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Pesquisar clientes...." value="{{ query }}">
+            <button type="submit" class="btn btn-primary"> Buscar</button>
+        </div>
+    </form>
+
+    <!--Card da tabela-->
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <a href="{% url 'cadastrar_cliente' %}" class="btn btn-success mb-3">+ Novo Cliente</a>
+
+            <div class="table-responsive">
+                <table class="table teble-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nome</th>
+                            <th>CPF/CNPJ</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
+                            <th>Endereço</th>
+                        </tr>
+
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
 </div>
+
 {% endblock %}
