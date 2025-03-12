@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Clientes</h2>
+    <a href="{% url 'cadastrar_cliente' %}" class="btn btn-primary mb-3">+ Novo Cliente</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF/CNPJ</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Endereço</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.cpf_cnpj }}</td>
+                <td>{{ cliente.telefone }}</td>
+                <td>{{ cliente.email }}</td>
+                <td>{{ cliente.endereco }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">Nenhum cliente cadastrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
