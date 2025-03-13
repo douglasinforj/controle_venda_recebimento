@@ -49,7 +49,7 @@ def listar_clientes(request):
     query = request.GET.get("q", "")
     clientes = Cliente.objects.filter(
         Q(nome__icontains=query) |
-        Q(email_icontains=query) |
+        Q(email__icontains=query) |
         Q(cpf_cnpj__icontains=query)
 
     ) if query else Cliente.objects.all()
