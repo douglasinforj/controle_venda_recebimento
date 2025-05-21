@@ -71,8 +71,12 @@ def cadastrar_cliente(request):
 #--------------------------------Produtos---------------------------------------
 
 def listar_produtos(request):
-    produtos = Produto.objects.all()
-    return render(request, "controle_vendas_app/listar_produtos.html", {"produtos": produtos})
+    query = request.GET.get("q","")
+    if query:
+        produtos = Produto.objects.filter(Q(nome__icontains=query) | Q(descricao__icontains=query))
+    else:
+        produtos = Produto.objects.all()
+    return render(request, "controle_vendas_app/listar_produtos.html", {"produtos": produtos, "query": query})
 
 def cadastrar_produto(request):
     if request.method == "POST":
