@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 
 from datetime import date, timedelta
-from .models import Parcela, Cliente
-from .forms import ClienteForm
+from .models import Parcela, Cliente, Produto
+from .forms import ClienteForm, ProdutoForm
 
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
@@ -68,9 +68,20 @@ def cadastrar_cliente(request):
     return render(request, "controle_vendas_app/cadastrar_cliente.html", {"form": form})
 
 
+#--------------------------------Produtos---------------------------------------
 
+def listar_produtos(request):
+    produtos = Produto.objects.all()
+    return render(request, "controle_vendas_app/listar_produtos.html", {"produtos": produtos})
 
-
-
+def cadastrar_produto(request):
+    if request.method == "POST":
+        form = ProdutoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_produtos')
+    else:
+        form = ProdutoForm()
+    return render(request, "controle_vendas_app/cadastrar_produto.html", {"form": form})
 
     
