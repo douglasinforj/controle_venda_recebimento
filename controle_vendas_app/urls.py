@@ -9,4 +9,7 @@ urlpatterns = [
 
     path('listar_clientes/', views.listar_clientes, name='listar_clientes'),
     path('clientes/cadastrar/', views.cadastrar_cliente, name='cadastrar_cliente'),
+
+    path('listar_produtos/', views.listar_produtos, name='listar_produtos'), 
+    path('produtos/cadastrar/', views.cadastrar_produto, name='cadastrar_produto')
 ]
