@@ -69,9 +69,8 @@ def cadastrar_cliente(request):
         form = ClienteForm()
     return render(request, "controle_vendas_app/cadastrar_cliente.html", {"form": form})
 
-
 #--------------------------------Produtos---------------------------------------
-
+@login_required
 def listar_produtos(request):
     query = request.GET.get("q","")
     if query:
@@ -80,17 +79,42 @@ def listar_produtos(request):
         produtos = Produto.objects.all()
     return render(request, "controle_vendas_app/listar_produtos.html", {"produtos": produtos, "query": query})
 
+
+
 def cadastrar_produto(request):
+    ImagemFormSet = inlineformset_factory(
+        Produto, ImagemProduto,
+        form=ImagemProdutoForm,
+        extra=3,  # permite até 3 imagens por padrão
+        can_delete=False
+    )
+
     if request.method == "POST":
         form = ProdutoForm(request.POST)
-        if form.is_valid():
-            form.save()
+        formset = ImagemFormSet(request.POST, request.FILES)
+
+        if form.is_valid() and formset.is_valid():
+            produto = form.save()
+            formset.instance = produto  # associa as imagens ao produto salvo
+            formset.save()
             return redirect('listar_produtos')
     else:
         form = ProdutoForm()
-    return render(request, "controle_vendas_app/cadastrar_produto.html", {"form": form})
+        formset = ImagemFormSet()
+
+    return render(request, "controle_vendas_app/cadastrar_produto.html", {
+        "form": form,
+        "formset": formset
+    })
 
 
+
+
+
+
+
+
+@login_required
 def editar_produto(request, produto_id):
     produto = get_object_or_404(Produto, id=produto_id)
 
