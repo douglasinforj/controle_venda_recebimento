@@ -18,6 +18,16 @@ class ImagemProdutoForm(forms.ModelForm):
         model = ImagemProduto
         fields = ['imagem']
 
+    def clean_imagem(self):
+        imagem = self.cleaned_data.get('imagem')
+
+        if imagem:
+            if imagem.size > 2 * 1024 * 1024:  # 2MB
+                raise forms.ValidationError("A imagem não pode ser maior que 2MB.")
+            if not imagem.content_type in ['image/jpeg', 'image/png']:
+                raise forms.ValidationError("A imagem deve estar em formato JPEG ou PNG.")
+        return imagem
+
 ImagemProdutoFormSet = modelformset_factory(
     ImagemProduto,
     form=ImagemProdutoForm,
