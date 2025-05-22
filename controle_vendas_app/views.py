@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from datetime import date, timedelta
-from .models import Parcela, Cliente, Produto
-from .forms import ClienteForm, ProdutoForm
+from .models import Parcela, Cliente, Produto, ImagemProduto
+from .forms import ClienteForm, ProdutoForm, ImagemProdutoForm
 
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
@@ -10,6 +10,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from django.db.models import Q
+
+from django.forms.models import inlineformset_factory
 
 
 @login_required
@@ -87,5 +89,33 @@ def cadastrar_produto(request):
     else:
         form = ProdutoForm()
     return render(request, "controle_vendas_app/cadastrar_produto.html", {"form": form})
+
+
+def editar_produto(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+
+    # Cria um formset de imagens relacionadas ao produto
+    ImagemFormSet = inlineformset_factory(
+        Produto, ImagemProduto, form=ImagemProdutoForm,
+        extra=3, can_delete=True
+    )
+
+    if request.method == 'POST':
+        form = ProdutoForm(request.POST, instance=produto)
+        formset = ImagemFormSet(request.POST, request.FILES, instance=produto)
+
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            return redirect('listar_produtos')
+    else:
+        form = ProdutoForm(instance=produto)
+        formset = ImagemFormSet(instance=produto)
+
+    return render(request, 'controle_vendas_app/editar_produto.html', {
+        'form': form,
+        'formset': formset,
+        'produto': produto
+    })
 
     
