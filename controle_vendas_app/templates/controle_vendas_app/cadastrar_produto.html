@@ -10,11 +10,50 @@
     <h5>Imagens do Produto</h5>
     {{ formset.management_form }}
     {% for img_form in formset %}
-        {{ img_form.as_p }}
+        <div class="mb-3">
+            {{ img_form.as_p }}
+        </div>
     {% endfor %}
 
     <button type="submit" class="btn btn-success">Salvar Produto</button>
         <a href="{% url 'listar_produtos' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+
+    fileInputs.forEach((input) => {
+        input.addEventListener("change", function(event) {
+            const previewContainer = document.createElement("div");
+            previewContainer.classList.add("mt-2");
+
+            // Remove previews anteriores
+            const oldPreview = input.parentElement.querySelector(".image-preview");
+            if (oldPreview) oldPreview.remove();
+
+            previewContainer.classList.add("image-preview");
+
+            [...event.target.files].forEach((file) => {
+                if (file && file.type.startsWith("image/")) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement("img");
+                        img.src = e.target.result;
+                        img.style.maxWidth = "150px";
+                        img.style.marginRight = "10px";
+                        previewContainer.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            input.parentElement.appendChild(previewContainer);
+        });
+    });
+});
+</script>
+
+
 {% endblock %}
