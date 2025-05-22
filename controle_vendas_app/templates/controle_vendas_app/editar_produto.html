@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Editar Produto: {{ produto.nome }}</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <h4>Imagens do Produto</h4>
+        {{ formset.management_form }}
+
+        <div class="row">
+            {% for imgform in formset %}
+                <div class="col-md-4 mb-3">
+                    {{ imgform.imagem.label_tag }} {{ imgform.imagem }}
+                    {% if imgform.instance.imagem %}
+                        <div>
+                            <img src="{{ imgform.instance.imagem.url }}" alt="Imagem" class="img-thumbnail" style="height: 150px;">
+                        </div>
+                    {% endif %}
+                    {{ imgform.DELETE }} Excluir
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a href="{% url 'listar_produtos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
