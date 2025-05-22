@@ -12,15 +12,44 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.nome
+
+
+class Categoria(models.Model):
+    nome = models.CharField(max_length=100)
+
+    def __str__(self):
+        self.nome
+
     
 class Produto(models.Model):
     nome = models.CharField(max_length=200)
     descricao = models.TextField()
     preco = models.DecimalField(max_digits=10, decimal_places=2)
+    preco_custo = models.DecimalField(max_digits=10, decimal_places=2)
+    lucro = models.DecimalField(max_digits=10, decimal_places=2, editable=False)  # Não editável manualmente
     estoque = models.PositiveIntegerField()
+    categoria = models.ForeignKey('Categoria', on_delete=models.SET_NULL, null=True, blank=True)
+
+    #calcula o campo lucro
+    def save(self, *args, **kwargs):
+        self.lucro = self.preco - self.preco_custo
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.nome
+    
+
+class ImagemProduto(models.Model):
+    produto = models.ForeignKey(Produto, related_name='imagens', on_delete=models.CASCADE)
+    imagem = models.ImageField(upload_to='static/imagens/produtos/')
+
+    def __str__(self):
+        return f"Imagem de {self.produto.nome}"
+
+
+
+
+    
     
 class Venda(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
