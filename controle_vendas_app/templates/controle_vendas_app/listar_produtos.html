@@ -22,18 +22,28 @@
                     <thead class="table-dark">
                         <tr>
                             <th>Nome</th>
+                            <th>Categoria</th>
                             <th>Descrição</th>
-                            <th>Preço</th>
+                            <th>Preço Custo</th>
+                            <th>Lucro</th>
+                            <th>Preço Venda</th>
                             <th>Estoque</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for produto in produtos %}
                         <tr>
                             <td>{{ produto.nome }}</td>
+                            <td>{{ produto.categoria.nome }}</td>
                             <td>{{ produto.descricao }}</td>
+                            <td>R$ {{ produto.preco_custo }}</td>
+                            <td>R$ {{ produto.lucro }}</td>
                             <td>R$ {{ produto.preco }}</td>
                             <td>{{ produto.estoque }}</td>
+                            <td>
+                                <a href="{% url 'editar_produto' produto.id %}" class="btn btn-sm btn-warning">Editar</a>
+                            </td>
                         </tr>
                         {% empty %}
                         <tr>
